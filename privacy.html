@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Babysteg – Personvern / Privacy</title>
+<style>
+  body { font-family: -apple-system, system-ui, sans-serif; max-width: 680px; margin: 0 auto; padding: 24px 16px 48px; color: #221A24; background: #F7F4F2; line-height: 1.6; }
+  h1 { font-size: 28px; margin-bottom: 4px; }
+  h2 { font-size: 18px; margin-top: 28px; }
+  .muted { color: #5D5361; font-size: 14px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; margin: 8px 0 16px; }
+  th, td { text-align: left; vertical-align: top; padding: 6px 8px; border-bottom: 1px solid #E8E1E3; }
+  th { color: #5D5361; font-weight: 600; }
+  hr { border: 0; border-top: 1px solid #E8E1E3; margin: 36px 0; }
+  code { background: #EFE9EB; padding: 1px 5px; border-radius: 4px; font-size: 13px; }
+</style>
+</head>
+<body>
+<h1>Personvernerklæring for Babysteg</h1>
+<p class="muted">Sist oppdatert: 6. oktober 2026 · gjelder app-versjon 1.11 og nyere</p>
+
+<h2>Kort fortalt</h2>
+<p>Babysteg lagrer det du legger inn på din egen telefon. Appen har ingen brukerkontoer og ingen egne analyse- eller sporingsverktøy; det eneste tredjeparts-SDK-et er Googles annonse-SDK, som samler det som står i punkt 4. Appen er gratis og finansieres med <strong>noen få annonser</strong> (Google AdMob) på handlelisten og i bonuser du selv velger – annonsesystemet får aldri innhold fra appen (se punkt 4). Ellers forlater data telefonen bare i to tilfeller som du selv slår på: <strong>deling med partner</strong> og <strong>AI-assistenten</strong>. Alt beskrives under, med hva som sendes, til hvem, hvor lenge det lagres og hvordan du sletter det.</p>
+
+<h2>1. Det som ligger på telefonen</h2>
+<p>Profil (navn, rolle, språk, termindato, fødselsdato, om det er første barn), avkryssede steg og aktiviteter, handleliste, quizresultater, minnebok («Første gang»), sparketellinger og rietimer, mate-, bleie- og søvnlogg, vekstmålinger, navneliste, fødselsplan, spørsmålsliste, besøksregler, brev til barnet, ukesbilder, tidskapsel, lønnsanslag for permisjonen, koffeinlogg, notater om febernedsettende, samtaler med assistenten og innstillinger. Helsedata fra smartklokke hentes bare når du kobler til Apple Helse eller Health Connect, og lagres lokalt: skritt (aktivitetsråd), søvn (søvnråd og nattlogg), hvilepuls (hviletips) og vekt (vektguiden). Appen ber bare om lesetilgang, bruker aldri helsedata til annonser, og deler bare skritt og søvn – og bare hvis du slår det på. «Koble fra» i appen stopper lesingen og sletter de hentede tallene; selve tillatelsen trekkes tilbake i Health Connect-appen eller Helse → Deling.</p>
+<p>Lagret med operativsystemets app-lagring; API-nøkler, enhetsnøkkelen for deling og MCP-nøkkelen ligger i telefonens sikre lager (iOS Keychain / Android Keystore) og tas aldri med i sikkerhetskopier.</p>
+
+<h2>2. Deling med partner (valgfritt – ikke aktivert i lanseringsversjonen)</h2>
+<p class="muted">I appens første versjon er deling mellom to telefoner slått av; menyen viser «Kommer snart» og ingen familiedata sendes til serveren. Beskrivelsen under gjelder fra den versjonen som slår det på, og vil bli varslet i appen.</p>
+<p>Når dere kobler to telefoner sammen, lagres følgende på Babysteg-serveren (en Cloudflare Worker som den som har satt opp appen drifter – ikke en tredjepart) slik at begge ser det samme:</p>
+<table>
+<tr><th>Deles</th><th>Deles ikke</th></tr>
+<tr><td>termindato og fødselsdato, om det er første barn; avkryssede steg og aktiviteter; handleliste og egne varer; minnebok; sparketellinger; mate-, bleie- og søvnlogg; nattlogg; vekstmålinger; navneliste; fødselsplan; spørsmål til jordmor; besøksregler; dagens parspørsmål; kvelds- og lesestund-streak; notater om febernedsettende (tidspunkt, hvem); gråtekompass-episoder; terminveddemål; barnevaktkortets linjer; permisjonsplanen og dens avkryssinger; viktige numre dere har lagt inn; ukens bildeoppdrag (bare «tatt / ikke tatt»); fødselskortets tekst (navn, tid, vekt, lengde)</td>
+<td>poeng og quiz, samtaler med assistenten, <strong>bilder</strong> (de ligger bare på telefonen), brev til barnet og tidskapselen, lønnsanslag, koffeinlogg, hvilepuls og vekt. Skritt og søvn fra smartklokken deles bare hvis du slår på «Del skritt og søvn med partner».</td></tr>
+</table>
+<p><strong>Slik fungerer tilgangen.</strong> Hver telefon registreres med eierens fornavn (fra profilen), rolle (mor/partner) og telefontype, så dere ser hvem som er koblet til. Den første telefonen lager en familie på serveren og får en engangskode på 6 tegn som er gyldig i 24 timer. Partnerens telefon bruker koden én gang og får sin egen, lange enhetsnøkkel; serveren lagrer bare en hash av nøkkelen. Under «Mer → Del med partner» ser dere hvilke telefoner som er koblet til og når de sist var innom, og kan fjerne en telefon, forlate familien eller slette alt på serveren. Familiedataene lagres i en Durable Object hos Cloudflare med EU-jurisdiksjon (selve lagringen og behandlingen av familiedataene skjer i EU/EØS). Selve forespørslene kjører i Cloudflares nærmeste datasenter, og oppslagsnøklene (bare hasher av nøkler og invitasjonskoder, ingen innhold) ligger i Cloudflares globale KV-lager. Familien slettes automatisk ett år etter siste synkronisering.</p>
+<p><strong>MCP-nøkkel (valgfritt, avansert).</strong> Du kan lage en lang nøkkel som gir en KI-assistent (for eksempel Claude eller ChatGPT) tilgang til familiens delte data gjennom serveren. Nøkkelen kan byttes eller slettes når som helst; da slutter adressen å virke umiddelbart. Hva den assistenten gjør med det den leser, styres av dens egen personvernerklæring.</p>
+
+<h2>3. AI-assistenten (valgfritt)</h2>
+<p>Første gang du stiller et spørsmål i «Spør», blir du bedt om samtykke. Først etter samtykke sendes:</p>
+<ul>
+<li>spørsmålet ditt og de siste meldingene i samtalen (inntil 12),</li>
+<li>en kort kontekst: svangerskapsuke eller barnets alder, termin-/fødselsdato, åpne punkter på handlelista og dagens steg,</li>
+<li>bare hvis du har slått det på under «Smartklokke»: én linje med dagens skritt og søvn.</li>
+</ul>
+<p>Dette går til Babysteg-serveren (se over) og videre til AI-leverandøren <strong>Mistral AI</strong> (Paris, Frankrike – EU) for å lage svaret; appen er bygget slik at serveren også kan settes opp med Groq, Anthropic, OpenRouter eller Google, og et bytte vil bli oppdatert her. Leverandøren behandler teksten etter sine egne vilkår (<a href="https://mistral.ai/terms#privacy-policy">Mistrals personvernerklæring</a>); Babysteg-serveren lagrer ikke spørsmål eller svar. Har du lagt inn egen API-nøkkel, går spørsmålet direkte fra telefonen til leverandøren du valgte. Samtykket kan trekkes tilbake under «Mer → Assistent»; da svarer appen bare fra sin innebygde kunnskapsbase, og ingenting sendes. Nødspørsmål (ikke puster, kramper, blødning o.l.) besvares alltid lokalt fra appens førstehjelpsinnhold, uansett innstilling. Ikke skriv personnummer eller andres helseopplysninger i chatten.</p>
+
+<h2>4. Annonser (Google AdMob)</h2>
+<p>Babysteg er gratis og viser <strong>én annonsebanner nederst på «Handle»</strong> og <strong>korte annonsefilmer du selv velger å se</strong> for en bonus (dobbelt quizpoeng én dag, to ekstra farger på babykortet). Det vises aldri annonser på ukens utvikling, «Inni magen», påminnelser, feber, vekst, smartklokke, akutthjelp, assistenten, i pausemodus, ved oppstart eller når du bytter fane.</p>
+<p><strong>Hva annonsesystemet får.</strong> Annonsene leveres av Google AdMob. Appen sender bare en forespørsel om en annonse til Google; den legger aldri ved opplysninger fra appen – ikke uke, termin, barnets alder, logger, samtaler eller helsedata. Google mottar det enhver annonseforespørsel inneholder: enhetens annonse-ID (hvis du ikke har slått den av i telefonens innstillinger), IP-adresse (omtrentlig sted), type enhet og operativsystem, app-ID og -versjon, hvilken annonse som ble vist/trykket, samt feil- og ytelsesdiagnostikk fra annonse-SDK-en. Dette er «enhets-ID-er», «omtrentlig posisjon», «app-interaksjoner» og «diagnostikk» i Google Plays datasikkerhetsskjema. Googles behandling er beskrevet i <a href="https://policies.google.com/technologies/ads">Googles personvernerklæring for annonser</a>; Googles sertifiserte annonsepartnere finner du på <a href="https://support.google.com/admob/answer/9012903">denne listen</a>.</p>
+<p><strong>Samtykke og valg.</strong> I EØS/Storbritannia vises Googles samtykkeskjema (User Messaging Platform) første gang du åpner en side med annonser – ikke ved oppstart. Du kan si nei til tilpassede annonser; da vises ikke-tilpassede annonser eller ingen annonser. Valgene kan endres når som helst under «Mer → Annonser → Personvernvalg for annonser». Annonse-ID kan nullstilles eller slås av i Android-innstillingene (Personvern → Annonser) og i iOS (Personvern → Sporing). Data fra Health Connect / Apple Helse brukes aldri til annonser.</p>
+
+<h2>4b. Nyheter, tilbud og NAV-tall</h2>
+<p>Appen henter en liste med offisielle nyheter, butikktilbud og oppdaterte NAV-beløp fra Babysteg-serveren. Forespørselen inneholder ingen data om deg (ingen identifikator, ingen uke).</p>
+
+<h2>5. Varsler, widget og kalender</h2>
+<p>Den daglige påminnelsen er et lokalt varsel som planlegges på telefonen; ingen push-tjeneste brukes. Widgeten leser et sammendrag som appen skriver lokalt. Kalenderfilen (.ics) lages på telefonen og deles bare dit du selv sender den.</p>
+
+<h2>6. Sikkerhetskopi</h2>
+<p>«Mer → Sikkerhetskopi» lager én fil med det du har lagt inn og bildefilene (ikke samtaler med assistenten) (ukryptert – appen advarer før eksport). Den lagres eller sendes bare dit du velger. Nøkler, delingskoder og samtykker er aldri med: etter en gjenoppretting må samtykke til assistenten og til deling av skritt/søvn gis på nytt, og smartklokken må kobles til igjen.</p>
+
+<h2>7. Sletting</h2>
+<p>Under «Mer → Slett data» kan du slette hver del for seg: (1) appens data på telefonen, (2) bildefilene, (3) alt som er delt på serveren – eller alt i ett. «Pause» under Mer stopper varsler og innhold uten å slette noe. Sletter du appen, forsvinner telefonens data og bilder; det som ligger på serveren slettes automatisk ett år etter siste synkronisering, eller straks via «Slett alt som er delt på serveren» fra en av telefonene.</p>
+
+<h2>8. Barn</h2>
+<p>Appen er laget for foreldre. Opplysninger om barnet (fødselsdato, vekst, logger) legges inn av foreldrene og behandles som beskrevet over.</p>
+
+<h2>9. Ikke medisinsk rådgivning</h2>
+<p>Innholdet bygger på offentlige råd fra Helsenorge, Helsedirektoratet, FHI, Mattilsynet, NAV og Norsk Resuscitasjonsråd, men erstatter ikke jordmor, lege eller helsestasjon. Ved akutte symptomer: ring fødeavdelingen, legevakt 116 117 eller 113.</p>
+
+<h2>10. Behandlingsansvarlig og kontakt</h2>
+<p>Behandlingsansvarlig for appen og serveren er den som tilbyr Babysteg: <strong>Ali Abooshahab</strong>, <strong>akishahab@gmail.com</strong>. Spørsmål, innsyn, retting og sletting: send en e-post. Du kan klage til Datatilsynet (datatilsynet.no).</p>
+
+<hr>
+
+<h1>Babysteg privacy policy</h1>
+<p class="muted">Last updated 6 October 2026 · app version 1.11 and later</p>
+
+<h2>In short</h2>
+<p>Babysteg stores what you enter on your own phone. There are no user accounts and no analytics or tracking tools of our own; the only third-party SDK is Google's ads SDK, which collects what section 4 lists. The app is free and funded by <strong>a few ads</strong> (Google AdMob) on the shopping list and in bonuses you choose yourself – the ad system never receives content from the app (see section 4). Otherwise data leaves the phone only in two cases that you switch on yourself: <strong>partner sharing</strong> and the <strong>AI assistant</strong>. Everything is described below – what is sent, to whom, how long it is kept and how to delete it.</p>
+
+<h2>1. What stays on the phone</h2>
+<p>Profile (name, role, language, due date, birth date, first baby), completed steps and activities, shopping list, quiz results, memory book, kick counts and contraction timer, feed/nappy/sleep logs, growth entries, name list, birth plan, question list, visitor rules, letters to the child, weekly photos, time capsule, leave-pay estimate, caffeine log, fever-medicine notes, assistant chats and settings. Smartwatch data is read only when you connect Apple Health or Health Connect, and is stored locally: steps (activity advice), sleep (sleep advice and the night log), resting heart rate (rest tips) and weight (the weight guide). The app asks for read access only, never uses health data for ads, and shares only steps and sleep – and only if you switch it on. "Disconnect" in the app stops the reading and clears the fetched figures; the permission itself is revoked in the Health Connect app or Health → Sharing.</p>
+<p>Stored with the operating system's app storage; API keys, the sharing device key and the MCP key live in the phone's secure store (iOS Keychain / Android Keystore) and are never included in backups.</p>
+
+<h2>2. Partner sharing (optional – not enabled in the launch version)</h2>
+<p class="muted">In the app's first version sharing between two phones is switched off; the menu shows "Coming soon" and no family data is sent to the server. The description below applies from the version that turns it on, which will be announced in the app.</p>
+<p>When you link two phones, the following is stored on the Babysteg server (a Cloudflare Worker operated by whoever set the app up – not a third party) so both see the same:</p>
+<table>
+<tr><th>Shared</th><th>Not shared</th></tr>
+<tr><td>due date and birth date, first baby; completed steps and activities; shopping list and own items; memory book; kick counts; feed, nappy and sleep logs; night log; growth entries; name list; birth plan; questions for the midwife; visitor rules; the couple's daily question; evening-talk/reading streak; fever-medicine notes (time, who); crying-compass episodes; due-date sweepstake; babysitter card lines; the leave plan and its ticks; the important numbers you entered; the weekly photo prompt (only "taken / not taken"); the birth card's text (name, time, weight, length)</td>
+<td>points and quiz, assistant chats, <strong>photos</strong> (they stay on the phone), letters to the child and the time capsule, pay estimates, caffeine log, resting heart rate and weight. Steps and sleep from the watch are shared only if you turn on "Share steps and sleep with partner".</td></tr>
+</table>
+<p><strong>How access works.</strong> Each phone is registered with its owner's first name (from the profile), role (mother/partner) and phone type, so you can see who is connected. The first phone creates a family on the server and gets a one-time 6-character code valid for 24 hours. The partner's phone uses the code once and receives its own long device key; the server stores only a hash of it. Under "More → Share with partner" you see which phones are linked and when they were last seen, and can remove a phone, leave the family or delete everything on the server. Family data is stored in a Durable Object at Cloudflare with EU jurisdiction (the storage and processing of the family data itself happens in the EU/EEA). Requests run in Cloudflare's nearest data centre, and the lookup keys (hashes of keys and invite codes only, no content) live in Cloudflare's global KV store. A family is deleted automatically one year after its last sync.</p>
+<p><strong>MCP key (optional, advanced).</strong> You can create a long key that gives an AI assistant (for example Claude or ChatGPT) access to the family's shared data through the server. The key can be replaced or deleted at any time; the address then stops working immediately. What that assistant does with what it reads is governed by its own privacy policy.</p>
+
+<h2>3. The AI assistant (optional)</h2>
+<p>The first time you ask a question in "Ask" you are asked for consent. Only after consent is this sent:</p>
+<ul>
+<li>your question and the last messages in the chat (up to 12),</li>
+<li>a short context: pregnancy week or the child's age, due/birth date, open shopping items and today's steps,</li>
+<li>only if you turned it on under "Smartwatch": one line with today's steps and sleep.</li>
+</ul>
+<p>This goes to the Babysteg server (see above) and on to the AI provider <strong>Mistral AI</strong> (Paris, France – EU) to produce the answer; the app is built so the server can also be set up with Groq, Anthropic, OpenRouter or Google, and a change will be updated here. The provider processes the text under its own terms (<a href="https://mistral.ai/terms#privacy-policy">Mistral's privacy policy</a>); the Babysteg server does not store questions or answers. If you entered your own API key, the question goes directly from the phone to the provider you chose. Consent can be withdrawn under "More → Assistant"; the app then answers from its built-in knowledge base only and nothing is sent. Emergency questions (not breathing, seizures, bleeding etc.) are always answered locally from the app's first-aid content, whatever the setting. Do not type ID numbers or other people's health information into the chat.</p>
+
+<h2>4. Ads (Google AdMob)</h2>
+<p>Babysteg is free and shows <strong>one ad banner at the bottom of "Handle" (shopping)</strong> and <strong>short ad videos you choose to watch</strong> for a bonus (double quiz points for a day, two extra baby-card colours). Ads never appear on the weekly development, "Inni magen", reminders, fever, growth, smartwatch, emergency help, the assistant, in pause mode, at startup or when switching tabs.</p>
+<p><strong>What the ad system receives.</strong> Ads are served by Google AdMob. The app only sends Google a request for an ad; it never attaches information from the app – not the week, due date, the child's age, logs, chats or health data. Google receives what every ad request contains: the device's advertising ID (unless you have turned it off in the phone's settings), IP address (approximate location), device type and operating system, app ID and version, which ad was shown/tapped, and crash/performance diagnostics from the ad SDK. In Google Play's Data safety form these are "device IDs", "approximate location", "app interactions" and "diagnostics". Google's processing is described in <a href="https://policies.google.com/technologies/ads">Google's advertising privacy policy</a>; Google's certified ad partners are listed <a href="https://support.google.com/admob/answer/9012903">here</a>.</p>
+<p><strong>Consent and choices.</strong> In the EEA/UK, Google's consent form (User Messaging Platform) is shown the first time you open a page with ads – not at startup. You can decline personalised ads; non-personalised ads or no ads are shown instead. Choices can be changed at any time under "More → Ads → Ad privacy choices". The advertising ID can be reset or turned off in Android settings (Privacy → Ads) and iOS (Privacy → Tracking). Health Connect / Apple Health data is never used for ads.</p>
+
+<h2>4b. News, deals and NAV figures</h2>
+<p>The app fetches a list of official news, store deals and updated NAV amounts from the Babysteg server. The request contains no data about you (no identifier, no week).</p>
+
+<h2>5. Notifications, widget and calendar</h2>
+<p>The daily reminder is a local notification scheduled on the phone; no push service is used. The widget reads a summary the app writes locally. The calendar file (.ics) is created on the phone and shared only where you send it.</p>
+
+<h2>6. Backup</h2>
+<p>"More → Backup" creates one file with what you have entered and the photo files (not assistant chats) (unencrypted – the app warns before exporting). It is saved or sent only where you choose. Keys, sharing codes and consents are never included: after a restore, consent for the assistant and for sharing steps/sleep is asked again, and the smartwatch has to be reconnected.</p>
+
+<h2>7. Deletion</h2>
+<p>Under "More → Delete data" you can delete each part separately: (1) the app's data on the phone, (2) the photo files, (3) everything shared on the server – or all at once. "Pause" under More stops reminders and content without deleting anything. If you delete the app, the phone's data and photos are gone; what is on the server is deleted automatically one year after the last sync, or immediately via "Delete everything shared on the server" from either phone.</p>
+
+<h2>8. Children</h2>
+<p>The app is made for parents. Information about the child (birth date, growth, logs) is entered by the parents and handled as described above.</p>
+
+<h2>9. Not medical advice</h2>
+<p>Content is based on public guidance from Helsenorge, the Norwegian Directorate of Health, FHI, Mattilsynet, NAV and the Norwegian Resuscitation Council, but does not replace your midwife, doctor or health centre. For urgent symptoms: call the maternity ward, legevakt 116 117 or 113.</p>
+
+<h2>10. Controller and contact</h2>
+<p>The data controller for the app and the server is whoever offers Babysteg: <strong>Ali Abooshahab</strong>, <strong>akishahab@gmail.com</strong>. Questions, access, correction and deletion: send an e-mail. You may complain to the Norwegian Data Protection Authority (datatilsynet.no).</p>
+</body>
+</html>

@@ -1,0 +1,5 @@
+# Replace this whole file with the single line AdMob shows under
+# Apps -> View all apps -> "Set up app-ads.txt" (it looks like the line below, with YOUR publisher id):
+# google.com, pub-6770260891904529, DIRECT, f08c47fec0942fa0
+# Then AdMob -> Apps -> app-ads.txt -> "Check for updates" (it can take up to 24 h).
+google.com, pub-6770260891904529, DIRECT, f08c47fec0942fa0
