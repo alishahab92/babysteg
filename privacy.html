@@ -18,7 +18,7 @@
 </head>
 <body>
 <h1>Personvernerklæring for Babysteg</h1>
-<p class="muted">Sist oppdatert: 6. oktober 2026 · gjelder app-versjon 1.11 og nyere</p>
+<p class="muted">Sist oppdatert: 8. oktober 2026 · gjelder app-versjon 1.12 og nyere</p>
 
 <h2>Kort fortalt</h2>
 <p>Babysteg lagrer det du legger inn på din egen telefon. Appen har ingen brukerkontoer og ingen egne analyse- eller sporingsverktøy; det eneste tredjeparts-SDK-et er Googles annonse-SDK, som samler det som står i punkt 4. Appen er gratis og finansieres med <strong>noen få annonser</strong> (Google AdMob) på handlelisten og i bonuser du selv velger – annonsesystemet får aldri innhold fra appen (se punkt 4). Ellers forlater data telefonen bare i to tilfeller som du selv slår på: <strong>deling med partner</strong> og <strong>AI-assistenten</strong>. Alt beskrives under, med hva som sendes, til hvem, hvor lenge det lagres og hvordan du sletter det.</p>
@@ -38,14 +38,14 @@
 <p><strong>Slik fungerer tilgangen.</strong> Hver telefon registreres med eierens fornavn (fra profilen), rolle (mor/partner) og telefontype, så dere ser hvem som er koblet til. Den første telefonen lager en familie på serveren og får en engangskode på 6 tegn som er gyldig i 24 timer. Partnerens telefon bruker koden én gang og får sin egen, lange enhetsnøkkel; serveren lagrer bare en hash av nøkkelen. Under «Mer → Del med partner» ser dere hvilke telefoner som er koblet til og når de sist var innom, og kan fjerne en telefon, forlate familien eller slette alt på serveren. Familiedataene lagres i en Durable Object hos Cloudflare med EU-jurisdiksjon (selve lagringen og behandlingen av familiedataene skjer i EU/EØS). Selve forespørslene kjører i Cloudflares nærmeste datasenter, og oppslagsnøklene (bare hasher av nøkler og invitasjonskoder, ingen innhold) ligger i Cloudflares globale KV-lager. Familien slettes automatisk ett år etter siste synkronisering.</p>
 <p><strong>MCP-nøkkel (valgfritt, avansert).</strong> Du kan lage en lang nøkkel som gir en KI-assistent (for eksempel Claude eller ChatGPT) tilgang til familiens delte data gjennom serveren. Nøkkelen kan byttes eller slettes når som helst; da slutter adressen å virke umiddelbart. Hva den assistenten gjør med det den leser, styres av dens egen personvernerklæring.</p>
 
-<h2>3. AI-assistenten (valgfritt)</h2>
-<p>Første gang du stiller et spørsmål i «Spør», blir du bedt om samtykke. Først etter samtykke sendes:</p>
+<h2>3. AI-assistenten</h2>
+<p><strong>Som standard forlater ingenting telefonen.</strong> «Spør» svarer på en av tre måter:</p>
 <ul>
-<li>spørsmålet ditt og de siste meldingene i samtalen (inntil 12),</li>
-<li>en kort kontekst: svangerskapsuke eller barnets alder, termin-/fødselsdato, åpne punkter på handlelista og dagens steg,</li>
-<li>bare hvis du har slått det på under «Smartklokke»: én linje med dagens skritt og søvn.</li>
+<li><strong>Telefonens egen AI (Gemini Nano)</strong> på telefoner som har den (f.eks. nyere Samsung Galaxy og Google Pixel). Modellen kjører i Androids AICore på telefonen. Norske spørsmål oversettes til engelsk på telefonen (Google ML Kit, oversettelsesmodellen lastes ned én gang) og svaret oversettes tilbake – alt skjer lokalt. Spørsmålet sendes ikke til Babysteg, Google eller andre.</li>
+<li><strong>Innebygd kunnskapsbase</strong> på telefoner uten innebygd AI – også helt lokalt.</li>
+<li><strong>Din egen API-nøkkel (valgfritt).</strong> Legger du selv inn en nøkkel under «Mer → Assistent» (OpenAI/ChatGPT, Anthropic/Claude, Google Gemini, Mistral, Groq eller OpenRouter) og godtar det i «Spør», sendes spørsmålet, de siste meldingene (inntil 12) og en kort kontekst (svangerskapsuke eller barnets alder, termin-/fødselsdato, åpne punkter på handlelista og dagens steg – skritt og søvn bare hvis du har slått det på under «Smartklokke») <strong>direkte fra telefonen til den leverandøren</strong>. Leverandøren behandler det etter sine egne vilkår og din avtale med dem. Babysteg-serveren er ikke med. Samtykket kan trekkes tilbake under «Mer → Assistent».</li>
 </ul>
-<p>Dette går til Babysteg-serveren (se over) og videre til AI-leverandøren <strong>Mistral AI</strong> (Paris, Frankrike – EU) for å lage svaret; appen er bygget slik at serveren også kan settes opp med Groq, Anthropic, OpenRouter eller Google, og et bytte vil bli oppdatert her. Leverandøren behandler teksten etter sine egne vilkår (<a href="https://mistral.ai/terms#privacy-policy">Mistrals personvernerklæring</a>); Babysteg-serveren lagrer ikke spørsmål eller svar. Har du lagt inn egen API-nøkkel, går spørsmålet direkte fra telefonen til leverandøren du valgte. Samtykket kan trekkes tilbake under «Mer → Assistent»; da svarer appen bare fra sin innebygde kunnskapsbase, og ingenting sendes. Nødspørsmål (ikke puster, kramper, blødning o.l.) besvares alltid lokalt fra appens førstehjelpsinnhold, uansett innstilling. Ikke skriv personnummer eller andres helseopplysninger i chatten.</p>
+<p>Nødspørsmål (ikke puster, kramper, blødning o.l.) besvares alltid lokalt fra appens førstehjelpsinnhold, uansett innstilling. Ikke skriv personnummer eller andres helseopplysninger i chatten.</p>
 
 <h2>4. Annonser (Google AdMob)</h2>
 <p>Babysteg er gratis og viser <strong>én annonsebanner nederst på «Handle»</strong> og <strong>korte annonsefilmer du selv velger å se</strong> for en bonus (dobbelt quizpoeng én dag, to ekstra farger på babykortet). Det vises aldri annonser på ukens utvikling, «Inni magen», påminnelser, feber, vekst, smartklokke, akutthjelp, assistenten, i pausemodus, ved oppstart eller når du bytter fane.</p>
@@ -76,7 +76,7 @@
 <hr>
 
 <h1>Babysteg privacy policy</h1>
-<p class="muted">Last updated 6 October 2026 · app version 1.11 and later</p>
+<p class="muted">Last updated 8 October 2026 · app version 1.12 and later</p>
 
 <h2>In short</h2>
 <p>Babysteg stores what you enter on your own phone. There are no user accounts and no analytics or tracking tools of our own; the only third-party SDK is Google's ads SDK, which collects what section 4 lists. The app is free and funded by <strong>a few ads</strong> (Google AdMob) on the shopping list and in bonuses you choose yourself – the ad system never receives content from the app (see section 4). Otherwise data leaves the phone only in two cases that you switch on yourself: <strong>partner sharing</strong> and the <strong>AI assistant</strong>. Everything is described below – what is sent, to whom, how long it is kept and how to delete it.</p>
@@ -96,14 +96,14 @@
 <p><strong>How access works.</strong> Each phone is registered with its owner's first name (from the profile), role (mother/partner) and phone type, so you can see who is connected. The first phone creates a family on the server and gets a one-time 6-character code valid for 24 hours. The partner's phone uses the code once and receives its own long device key; the server stores only a hash of it. Under "More → Share with partner" you see which phones are linked and when they were last seen, and can remove a phone, leave the family or delete everything on the server. Family data is stored in a Durable Object at Cloudflare with EU jurisdiction (the storage and processing of the family data itself happens in the EU/EEA). Requests run in Cloudflare's nearest data centre, and the lookup keys (hashes of keys and invite codes only, no content) live in Cloudflare's global KV store. A family is deleted automatically one year after its last sync.</p>
 <p><strong>MCP key (optional, advanced).</strong> You can create a long key that gives an AI assistant (for example Claude or ChatGPT) access to the family's shared data through the server. The key can be replaced or deleted at any time; the address then stops working immediately. What that assistant does with what it reads is governed by its own privacy policy.</p>
 
-<h2>3. The AI assistant (optional)</h2>
-<p>The first time you ask a question in "Ask" you are asked for consent. Only after consent is this sent:</p>
+<h2>3. The AI assistant</h2>
+<p><strong>By default nothing leaves the phone.</strong> "Ask" answers in one of three ways:</p>
 <ul>
-<li>your question and the last messages in the chat (up to 12),</li>
-<li>a short context: pregnancy week or the child's age, due/birth date, open shopping items and today's steps,</li>
-<li>only if you turned it on under "Smartwatch": one line with today's steps and sleep.</li>
+<li><strong>The phone's own AI (Gemini Nano)</strong> on phones that have it (e.g. recent Samsung Galaxy and Google Pixel). The model runs in Android's AICore on the phone. Norwegian questions are translated to English on the phone (Google ML Kit; the translation model is downloaded once) and the answer translated back – all locally. The question is not sent to Babysteg, Google or anyone else.</li>
+<li><strong>The built-in knowledge base</strong> on phones without built-in AI – also fully local.</li>
+<li><strong>Your own API key (optional).</strong> If you add a key yourself under "More → Assistant" (OpenAI/ChatGPT, Anthropic/Claude, Google Gemini, Mistral, Groq or OpenRouter) and agree in "Ask", your question, the latest messages (up to 12) and a short context (pregnancy week or the child's age, due/birth date, open shopping items and today's steps – steps and sleep only if you turned that on under "Smartwatch") go <strong>directly from the phone to that provider</strong>, which processes them under its own terms and your agreement with it. The Babysteg server is not involved. Consent can be withdrawn under "More → Assistant".</li>
 </ul>
-<p>This goes to the Babysteg server (see above) and on to the AI provider <strong>Mistral AI</strong> (Paris, France – EU) to produce the answer; the app is built so the server can also be set up with Groq, Anthropic, OpenRouter or Google, and a change will be updated here. The provider processes the text under its own terms (<a href="https://mistral.ai/terms#privacy-policy">Mistral's privacy policy</a>); the Babysteg server does not store questions or answers. If you entered your own API key, the question goes directly from the phone to the provider you chose. Consent can be withdrawn under "More → Assistant"; the app then answers from its built-in knowledge base only and nothing is sent. Emergency questions (not breathing, seizures, bleeding etc.) are always answered locally from the app's first-aid content, whatever the setting. Do not type ID numbers or other people's health information into the chat.</p>
+<p>Emergency questions (not breathing, seizures, bleeding etc.) are always answered locally from the app's first-aid content, whatever the setting. Do not type ID numbers or other people's health information into the chat.</p>
 
 <h2>4. Ads (Google AdMob)</h2>
 <p>Babysteg is free and shows <strong>one ad banner at the bottom of "Handle" (shopping)</strong> and <strong>short ad videos you choose to watch</strong> for a bonus (double quiz points for a day, two extra baby-card colours). Ads never appear on the weekly development, "Inni magen", reminders, fever, growth, smartwatch, emergency help, the assistant, in pause mode, at startup or when switching tabs.</p>
