@@ -1,5 +1,5 @@
 {
-  "_readme": "Shop product feeds from affiliate networks. The feed URL is a GitHub secret named in url_secret. Feeds without a secret are skipped.",
+  "_readme": "Shop product feeds from affiliate networks (Adtraction, Awin, Partner-ads …). The feed URL contains your personal key, so it is NOT written here: put it in a GitHub secret (Settings → Secrets and variables → Actions) with the name in 'url_secret'. Feeds without a secret are skipped. 'format' auto-detects CSV/TSV/XML/JSON (also .gz). 'fields' maps unusual column names if auto-detection misses them.",
   "feeds": [
     { "id": "shop1", "store": "Butikk 1", "url_secret": "FEED_1", "format": "auto" },
     { "id": "shop2", "store": "Butikk 2", "url_secret": "FEED_2", "format": "auto" },
