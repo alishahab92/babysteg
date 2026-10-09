@@ -1,0 +1,41 @@
+name: Products
+
+on:
+  schedule:
+    - cron: '20 4 * * *'
+  workflow_dispatch: {}
+  push:
+    paths: ['products/**']
+
+permissions:
+  contents: write
+
+concurrency:
+  group: products
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build products.json
+        run: node products/build.mjs
+        env:
+          FEED_1: ${{ secrets.FEED_1 }}
+          FEED_2: ${{ secrets.FEED_2 }}
+          FEED_3: ${{ secrets.FEED_3 }}
+          FEED_4: ${{ secrets.FEED_4 }}
+          FEED_5: ${{ secrets.FEED_5 }}
+      - name: Publish if changed
+        run: |
+          if git diff --quiet -- products.json; then echo "no change"; exit 0; fi
+          git config user.name "babysteg-bot"
+          git config user.email "babysteg-bot@users.noreply.github.com"
+          git add products.json
+          git commit -m "products: daily update"
+          git push
