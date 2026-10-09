@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="no"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer"><meta name="color-scheme" content="light dark">
+<title>Invitasjon · Babysteg</title><style>
+:root{--bg:#F7F4F2;--card:#fff;--alt:#F2EDEA;--ink:#221A24;--ink2:#5D5361;--muted:#6B5F70;--line:#E8E1E3;--p:#B4475F;--onp:#fff;--ps:#F7E6EA;--good:#3F8466}
+@media (prefers-color-scheme:dark){:root{--bg:#171115;--card:#211A1F;--alt:#2C242A;--ink:#F4ECEF;--ink2:#CDBFC7;--muted:#B3A6AE;--line:#372D34;--p:#DE7C93;--onp:#221A24;--ps:#3A2430;--good:#8FD3B2}}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%}
+main{max-width:640px;margin:0 auto;padding:28px 16px 64px}
+.hero{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px 20px;margin-bottom:14px;text-align:center}
+.hero .k{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.hero h1{font:600 30px/1.2 Georgia,"Times New Roman",serif;margin:6px 0 4px}
+.hero .st{font-size:18px;font-weight:700;color:var(--p)}.hero .sub{color:var(--ink2);margin-top:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin:12px 0}
+.card h2{font-size:17px;margin:0 0 6px;display:flex;gap:8px;align-items:center}
+.it{display:flex;gap:12px;justify-content:space-between;padding:8px 0;border-top:1px solid var(--line)}.it:first-of-type{border-top:0}
+.it .t{font-weight:650}.it .s{color:var(--ink2);font-size:14px;margin-top:1px;white-space:pre-wrap}.it .d{color:var(--muted);font-size:13px;white-space:nowrap}
+.note{color:var(--muted);font-size:13px;margin-top:6px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:6px}
+.grid figure{margin:0}.grid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:14px;display:block;cursor:zoom-in;background:var(--alt)}
+.grid figcaption{font-size:13px;color:var(--ink2);margin-top:4px}
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;padding:16px}.lb img{max-width:100%;max-height:100%;border-radius:10px}
+.btn{display:inline-block;background:var(--p);color:var(--onp);text-decoration:none;font-weight:700;padding:12px 18px;border-radius:14px;border:0;font-size:16px;cursor:pointer}
+.btn.sec{background:var(--ps);color:var(--ink)}
+footer{color:var(--muted);font-size:13px;text-align:center;margin-top:22px}footer a{color:var(--p)}
+.msg{text-align:center;padding:40px 10px;color:var(--ink2)}
+</style></head><body><main id="app"></main><script>
+(function(){var no=!/^en/.test(navigator.language||''),h=location.hash.slice(1),ok=/^[A-Z2-9]{8}\.[A-Za-z0-9_-]{43}$/.test(h);
+var app='babysteg://join#'+h,full=location.href;
+var t=function(a,b){return no?a:b;};
+var html='<div class="hero"><div class="k">Babysteg</div><h1>'+t('Du er invitert','You are invited')+'</h1><div class="sub">'+t('Noen vil dele graviditeten eller babyen med deg i Babysteg.','Someone wants to share their pregnancy or baby with you in Babysteg.')+'</div></div>';
+if(!ok){html+='<div class="msg">'+t('Lenken er ufullstendig – be om å få den sendt på nytt.','The link is incomplete – ask for it to be sent again.')+'</div>';}
+else{html+='<div class="card"><h2>1. '+t('Har du appen?','Have the app?')+'</h2><p><a class="btn" href="'+app+'">'+t('Åpne i Babysteg','Open in Babysteg')+'</a></p>'
++'<p class="note">'+t('Virker ikke knappen? Kopier lenken og lim den inn under Mer → Deling → «Har du fått en invitasjon?».','Button not working? Copy the link and paste it under Mer → Deling → "Got an invite?".')+'</p><p><button class="btn sec" id="cp">'+t('Kopier invitasjonen','Copy the invite')+'</button></p></div>'
++'<div class="card"><h2>2. '+t('Ikke ennå?','Not yet?')+'</h2><p>'+t('Last ned Babysteg (gratis), gå gjennom oppstarten, og åpne denne lenken på nytt.','Download Babysteg (free), finish the setup, and open this link again.')+'</p>'+("https://play.google.com/store/apps/details?id=no.babysteg.app"?'<p><a class="btn" href="'+"https://play.google.com/store/apps/details?id=no.babysteg.app"+'">Google Play</a></p>':'')+'</div>'
++'<div class="card"><h2>🔒 '+t('Privat','Private')+'</h2><p class="note">'+t('Invitasjonen virker én gang og i 3 dager. Nøkkelen i lenken sendes aldri til noen server – det dere deler, er kryptert på telefonene.','The invite works once and for 3 days. The key in the link is never sent to any server – what you share is encrypted on the phones.')+'</p></div>';}
+document.getElementById('app').innerHTML=html;
+var b=document.getElementById('cp');if(b)b.onclick=function(){(navigator.clipboard?navigator.clipboard.writeText(full):Promise.reject()).then(function(){b.textContent=t('Kopiert ✓','Copied ✓');},function(){prompt(t('Kopier lenken:','Copy the link:'),full);});};
+})();</script></body></html>

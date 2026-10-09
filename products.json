@@ -1,0 +1,123 @@
+{
+ "v": 1,
+ "updated": "2026-10-09T08:24:42.409Z",
+ "products": [
+  {
+   "id": "naf26v-cybex-sirona-ti",
+   "category": "baby-transport",
+   "items": [
+    "bb-carseat2",
+    "t-carseat"
+   ],
+   "name": "Cybex Sirona Ti",
+   "brand": "Cybex",
+   "kind": {
+    "no": "Bakovervendt bilstol, fra nyfødt til ca. 4 år",
+    "en": "Rear-facing car seat, from newborn to about 4 years"
+   },
+   "test": {
+    "source": "NAF / ADAC",
+    "url": "https://www.naf.no/trafikksikkerhet/barn-i-bil/test-av-bilstoler",
+    "date": "2026-07",
+    "score": {
+     "no": "3,5 av 5 – God",
+     "en": "3.5 of 5 – Good"
+    },
+    "verdict": {
+     "no": "Best samlet sikkerhet i NAF/ADACs vårtest 2026 (12 stoler). Ingen stol fikk toppkarakter. Prøv alltid stolen i bilen deres før kjøp.",
+     "en": "Best overall safety in the NAF/ADAC spring 2026 test (12 seats). No seat got the top grade. Always try the seat in your car before buying."
+    },
+    "rank": "winner"
+   },
+   "image": "",
+   "offers": []
+  },
+  {
+   "id": "naf26v-bugaboo-otter",
+   "category": "baby-transport",
+   "items": [
+    "t-carseat"
+   ],
+   "name": "Bugaboo Otter by Nuna",
+   "brand": "Bugaboo",
+   "kind": {
+    "no": "Babybilstol (bæremeis)",
+    "en": "Infant car seat (carrier)"
+   },
+   "test": {
+    "source": "NAF / ADAC",
+    "url": "https://www.naf.no/trafikksikkerhet/barn-i-bil/test-av-bilstoler",
+    "date": "2026-07",
+    "score": {
+     "no": "3,4 av 5 – Tilfredsstillende (3,3 med 360 Base)",
+     "en": "3.4 of 5 – Satisfactory (3.3 with the 360 Base)"
+    },
+    "verdict": {
+     "no": "Høyest av babybilstolene i vårtesten 2026. Gjorde det godt i kollisjonstesten på base, og bedre festet med bilbeltet.",
+     "en": "Highest-scoring infant seat in the spring 2026 test. Did well in the crash test on the base, and better fixed with the seat belt."
+    },
+    "rank": "top"
+   },
+   "image": "",
+   "offers": []
+  },
+  {
+   "id": "naf26v-nuna-arraflex",
+   "category": "baby-transport",
+   "items": [
+    "t-carseat"
+   ],
+   "name": "Nuna Arraflex",
+   "brand": "Nuna",
+   "kind": {
+    "no": "Babybilstol med base (Base Next)",
+    "en": "Infant car seat with base (Base Next)"
+   },
+   "test": {
+    "source": "NAF / ADAC",
+    "url": "https://www.naf.no/trafikksikkerhet/barn-i-bil/test-av-bilstoler",
+    "date": "2026-07",
+    "score": {
+     "no": "3,3 av 5 – Tilfredsstillende",
+     "en": "3.3 of 5 – Satisfactory"
+    },
+    "verdict": {
+     "no": "Trukket fram for god brukervennlighet i vårtesten 2026.",
+     "en": "Singled out for good usability in the spring 2026 test."
+    },
+    "rank": "top"
+   },
+   "image": "",
+   "offers": []
+  },
+  {
+   "id": "naf26v-kinderkraft-mink-pro-2",
+   "category": "baby-transport",
+   "items": [
+    "t-carseat"
+   ],
+   "name": "Kinderkraft Mink Pro 2 + Base Mink FX2",
+   "brand": "Kinderkraft",
+   "kind": {
+    "no": "Babybilstol med base",
+    "en": "Infant car seat with base"
+   },
+   "test": {
+    "source": "NAF / ADAC",
+    "url": "https://www.naf.no/trafikksikkerhet/barn-i-bil/test-av-bilstoler",
+    "date": "2026-07",
+    "score": {
+     "no": "0,5 av 5 – Dårlig (med basen)",
+     "en": "0.5 of 5 – Poor (with the base)"
+    },
+    "verdict": {
+     "no": "Underkjent: stolen løsnet fra basen i frontkollisjonen. Produsenten har tilbakekalt basen Mink FX 2. Stolen kan fortsatt brukes festet med bilbeltet – har dere den, sjekk tilbakekallingen.",
+     "en": "Failed: the seat came off its base in the frontal crash. The maker recalled the Mink FX 2 base. The seat can still be used fixed with the seat belt – if you have it, check the recall."
+    },
+    "rank": "warning"
+   },
+   "image": "",
+   "offers": []
+  }
+ ]
+}

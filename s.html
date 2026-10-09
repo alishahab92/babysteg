@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="no"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer"><meta name="color-scheme" content="light dark">
+<title>Babysteg</title><style>
+:root{--bg:#F7F4F2;--card:#fff;--alt:#F2EDEA;--ink:#221A24;--ink2:#5D5361;--muted:#6B5F70;--line:#E8E1E3;--p:#B4475F;--onp:#fff;--ps:#F7E6EA;--good:#3F8466}
+@media (prefers-color-scheme:dark){:root{--bg:#171115;--card:#211A1F;--alt:#2C242A;--ink:#F4ECEF;--ink2:#CDBFC7;--muted:#B3A6AE;--line:#372D34;--p:#DE7C93;--onp:#221A24;--ps:#3A2430;--good:#8FD3B2}}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%}
+main{max-width:640px;margin:0 auto;padding:28px 16px 64px}
+.hero{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px 20px;margin-bottom:14px;text-align:center}
+.hero .k{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.hero h1{font:600 30px/1.2 Georgia,"Times New Roman",serif;margin:6px 0 4px}
+.hero .st{font-size:18px;font-weight:700;color:var(--p)}.hero .sub{color:var(--ink2);margin-top:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin:12px 0}
+.card h2{font-size:17px;margin:0 0 6px;display:flex;gap:8px;align-items:center}
+.it{display:flex;gap:12px;justify-content:space-between;padding:8px 0;border-top:1px solid var(--line)}.it:first-of-type{border-top:0}
+.it .t{font-weight:650}.it .s{color:var(--ink2);font-size:14px;margin-top:1px;white-space:pre-wrap}.it .d{color:var(--muted);font-size:13px;white-space:nowrap}
+.note{color:var(--muted);font-size:13px;margin-top:6px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:6px}
+.grid figure{margin:0}.grid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:14px;display:block;cursor:zoom-in;background:var(--alt)}
+.grid figcaption{font-size:13px;color:var(--ink2);margin-top:4px}
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;padding:16px}.lb img{max-width:100%;max-height:100%;border-radius:10px}
+.btn{display:inline-block;background:var(--p);color:var(--onp);text-decoration:none;font-weight:700;padding:12px 18px;border-radius:14px;border:0;font-size:16px;cursor:pointer}
+.btn.sec{background:var(--ps);color:var(--ink)}
+footer{color:var(--muted);font-size:13px;text-align:center;margin-top:22px}footer a{color:var(--p)}
+.msg{text-align:center;padding:40px 10px;color:var(--ink2)}
+</style></head><body><main id="app"><div class="msg">…</div></main><script>window.__SERVER__="https://babysteg.abooshahab.workers.dev";window.__STORE__="https://play.google.com/store/apps/details?id=no.babysteg.app";</script><script>
+(function(){
+var SERVER=window.__SERVER__||'', STORE=window.__STORE__||'';
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function b64u(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u;}
+function day(iso){var d=new Date(iso.slice(0,10)+'T12:00:00');return Math.round(d.getTime()/864e5);}
+function today(){var n=new Date();return Math.round(new Date(n.getFullYear(),n.getMonth(),n.getDate(),12).getTime()/864e5);}
+function fmt(ms,no){return new Date(ms).toLocaleDateString(no?'nb-NO':'en-GB',{day:'numeric',month:'long',year:'numeric'});}
+function status(s){var no=s.lang!=='en',t=today();
+  if(s.dates.birth){var a=t-day(s.dates.birth);if(a<14)return no?a+' dager gammel':a+' days old';if(a<56){var w=Math.floor(a/7);return no?w+' uker gammel':w+' weeks old';}
+    var m=Math.floor(a/30.44);if(m<24)return no?m+' måneder gammel':m+' months old';var y=Math.floor(m/12);return no?y+' år gammel':y+(y===1?' year old':' years old');}
+  var left=day(s.dates.due)-t,g=(s.dates.days||283)-left;if(g<0)return '';var w2=Math.floor(g/7),d2=g%7;
+  var line=no?('Uke '+w2+'+'+d2+' · '+(w2+1)+'. svangerskapsuke'):('Week '+w2+'+'+d2+' · week '+(w2+1)+' of pregnancy');
+  return line+(left>0?(no?' · '+left+' dager til termin':' · '+left+' days to the due date'):'');}
+function render(s){var no=s.lang!=='en',h='';
+  document.documentElement.lang=no?'no':'en';document.title=s.title+' · Babysteg';
+  h+='<div class="hero"><div class="k">Babysteg</div><h1>'+esc(s.title)+'</h1><div class="st">'+esc(status(s)||s.status)+'</div>';
+  h+='<div class="sub">'+(s.dates.birth?(no?'Født ':'Born ')+fmt(day(s.dates.birth)*864e5,no):(no?'Termin ':'Due ')+fmt(day(s.dates.due)*864e5,no))+'</div></div>';
+  if(s.photos&&s.photos.length){h+='<div class="card"><h2>📸 '+(no?'Bilder':'Photos')+'</h2><div class="grid">';
+    s.photos.forEach(function(p){h+='<figure><img loading="lazy" alt="'+esc(p.cap||'')+'" src="'+esc(p.src)+'">'+(p.cap||p.d?'<figcaption>'+esc([p.cap,p.d].filter(Boolean).join(' · '))+'</figcaption>':'')+'</figure>';});h+='</div></div>';}
+  (s.blocks||[]).forEach(function(b){if(!b.items||!b.items.length)return;h+='<div class="card"><h2>'+esc(b.icon)+' '+esc(b.title)+'</h2>';
+    b.items.forEach(function(i){h+='<div class="it"><div><div class="t">'+esc(i.t)+'</div>'+(i.s?'<div class="s">'+esc(i.s)+'</div>':'')+'</div>'+(i.d?'<div class="d">'+esc(i.d)+'</div>':'')+'</div>';});
+    if(b.note)h+='<div class="note">'+esc(b.note)+'</div>';h+='</div>';});
+  h+='<footer>'+(no?'Delt fra Babysteg':'Shared from Babysteg')+(s.by?(no?' av ':' by ')+esc(s.by):'')+' · '+fmt(Date.parse(s.at),no);
+  if(s.expiresAt)h+='<br>'+(no?'Lenken slutter å virke ':'This link stops working ')+fmt(s.expiresAt,no)+'.';
+  if(STORE)h+='<br><a href="'+esc(STORE)+'">'+(no?'Hent Babysteg – gratis':'Get Babysteg – free')+'</a>';
+  h+='</footer><div class="lb" id="lb"><img alt=""></div>';
+  document.getElementById('app').innerHTML=h;
+  var lb=document.getElementById('lb');lb.onclick=function(){lb.style.display='none';};
+  Array.prototype.forEach.call(document.querySelectorAll('.grid img'),function(im){im.onclick=function(){lb.firstChild.src=im.src;lb.style.display='flex';};});}
+function fail(code){var no=!/^en/.test(navigator.language||'');var m={nolink:no?'Lenken er ufullstendig. Be om å få den sendt på nytt.':'The link is incomplete. Ask for it to be sent again.',gone:no?'Denne lenken har utløpt eller er slettet.':'This link has expired or was deleted.',key:no?'Lenken kunne ikke åpnes – den er skadet eller ufullstendig.':'The link could not be opened – it is damaged or incomplete.',net:no?'Fikk ikke kontakt. Sjekk nettet og last inn på nytt.':'Could not connect. Check your connection and reload.'};
+  document.getElementById('app').innerHTML='<div class="msg"><p style="font-size:40px;margin:0">🍼</p><p>'+(m[code]||m.net)+'</p></div>';}
+if(window.__SNAP__){render(window.__SNAP__);return;}
+var h=location.hash.slice(1).split('.');if(h.length!==2||!h[0]||!h[1]){fail('nolink');return;}
+if(!window.crypto||!crypto.subtle){fail('key');return;}
+fetch(SERVER+'/share/'+encodeURIComponent(h[0])).then(function(r){if(r.status===404)throw 'gone';if(!r.ok)throw 'net';return r.json();}).then(function(j){
+  var raw=b64u(j.data);return crypto.subtle.importKey('raw',b64u(h[1]),'AES-GCM',false,['decrypt']).then(function(k){return crypto.subtle.decrypt({name:'AES-GCM',iv:raw.slice(0,12)},k,raw.slice(12));}).then(function(pt){
+    var s=JSON.parse(new TextDecoder().decode(pt));s.expiresAt=j.expiresAt;render(s);},function(){throw 'key';});
+}).catch(function(e){fail(typeof e==='string'?e:'net');});
+})();
+</script></body></html>
