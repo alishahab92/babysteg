@@ -26,12 +26,15 @@ footer{color:var(--muted);font-size:13px;text-align:center;margin-top:22px}foote
 </style></head><body><main id="app"></main><script>
 (function(){var no=!/^en/.test(navigator.language||''),h=location.hash.slice(1),ok=/^[A-Z2-9]{8}\.[A-Za-z0-9_-]{43}$/.test(h);
 var app='babysteg://join#'+h,full=location.href;
+var ios="https://apps.apple.com/no/app/id6820998700",play="https://play.google.com/store/apps/details?id=no.babysteg.app",apple=/iPhone|iPad|iPod/.test(navigator.userAgent);
+var bi=ios?'<a class="btn'+(apple?'':' sec')+'" href="'+ios+'">App Store</a>':'',bp=play?'<a class="btn'+(apple?' sec':'')+'" href="'+play+'">Google Play</a>':'';
+var stores=(bi||bp)?'<p>'+(apple?bi+' '+bp:bp+' '+bi)+'</p>':'';
 var t=function(a,b){return no?a:b;};
 var html='<div class="hero"><div class="k">Babysteg</div><h1>'+t('Du er invitert','You are invited')+'</h1><div class="sub">'+t('Noen vil dele graviditeten eller babyen med deg i Babysteg.','Someone wants to share their pregnancy or baby with you in Babysteg.')+'</div></div>';
 if(!ok){html+='<div class="msg">'+t('Lenken er ufullstendig – be om å få den sendt på nytt.','The link is incomplete – ask for it to be sent again.')+'</div>';}
 else{html+='<div class="card"><h2>1. '+t('Har du appen?','Have the app?')+'</h2><p><a class="btn" href="'+app+'">'+t('Åpne i Babysteg','Open in Babysteg')+'</a></p>'
 +'<p class="note">'+t('Virker ikke knappen? Kopier lenken og lim den inn under Mer → Deling → «Har du fått en invitasjon?».','Button not working? Copy the link and paste it under Mer → Deling → "Got an invite?".')+'</p><p><button class="btn sec" id="cp">'+t('Kopier invitasjonen','Copy the invite')+'</button></p></div>'
-+'<div class="card"><h2>2. '+t('Ikke ennå?','Not yet?')+'</h2><p>'+t('Last ned Babysteg (gratis), gå gjennom oppstarten, og åpne denne lenken på nytt.','Download Babysteg (free), finish the setup, and open this link again.')+'</p>'+("https://play.google.com/store/apps/details?id=no.babysteg.app"?'<p><a class="btn" href="'+"https://play.google.com/store/apps/details?id=no.babysteg.app"+'">Google Play</a></p>':'')+'</div>'
++'<div class="card"><h2>2. '+t('Ikke ennå?','Not yet?')+'</h2><p>'+t('Last ned Babysteg (gratis) og åpne denne lenken på nytt. Appen kobler deg til familien rett etter oppstarten.','Download Babysteg (free) and open this link again. The app connects you to the family right after setup.')+'</p>'+stores+'</div>'
 +'<div class="card"><h2>🔒 '+t('Privat','Private')+'</h2><p class="note">'+t('Invitasjonen virker én gang og i 3 dager. Nøkkelen i lenken sendes aldri til noen server – det dere deler, er kryptert på telefonene.','The invite works once and for 3 days. The key in the link is never sent to any server – what you share is encrypted on the phones.')+'</p></div>';}
 document.getElementById('app').innerHTML=html;
 var b=document.getElementById('cp');if(b)b.onclick=function(){(navigator.clipboard?navigator.clipboard.writeText(full):Promise.reject()).then(function(){b.textContent=t('Kopiert ✓','Copied ✓');},function(){prompt(t('Kopier lenken:','Copy the link:'),full);});};

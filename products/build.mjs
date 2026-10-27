@@ -96,7 +96,9 @@ export function priceOf(s) {
   const m = String(s).replace(/\s/g, '').replace(/(NOK|kr|,-)/gi, '').match(/\d+(?:[.,]\d+)*/);
   if (!m) return 0;
   let n = m[0];
-  if (/,\d{1,2}$/.test(n)) n = n.replace(/\./g, '').replace(',', '.'); else n = n.replace(/,/g, '');
+  if (/,\d{1,2}$/.test(n)) n = n.replace(/\./g, '').replace(',', '.'); // 1.299,50 → 1299.50
+  else if (/^\d{1,3}(\.\d{3})+$/.test(n)) n = n.replace(/\./g, ''); // 1.299 (Norwegian thousands) → 1299, not 1.3
+  else n = n.replace(/,/g, ''); // 1,299.00 → 1299.00
   const v = parseFloat(n);
   return Number.isFinite(v) && v > 0 && v < 200000 ? Math.round(v) : 0;
 }
@@ -144,6 +146,7 @@ async function main() {
   const tests = JSON.parse(readFileSync(join(here, 'tests.json'), 'utf8')).tests;
   const feeds = JSON.parse(readFileSync(join(here, 'feeds.json'), 'utf8')).feeds;
   const offers = [];
+  const failed = [];
   const local = process.argv.indexOf('--feed');
   if (local > 0) {
     offers.push(...rows2offers(parseFeed(readFileSync(process.argv[local + 1])), { store: 'Lokal fil' }));
@@ -158,7 +161,15 @@ async function main() {
         const o = rows2offers(rows, feed);
         offers.push(...o);
         console.log(`· ${feed.id}: ${rows.length} rows, ${o.length} usable`);
-      } catch (e) { console.log(`· ${feed.id}: failed (${e.message}) – skipped`); }
+      } catch (e) {
+        // keep yesterday's offers from this shop rather than showing none, and make the run fail so it is noticed
+        console.log(`· ${feed.id}: failed (${e.message}) – keeping the last good offers`);
+        failed.push(feed.id);
+        try {
+          const old = JSON.parse(readFileSync(OUT, 'utf8'));
+          for (const p of old.products || []) for (const o of p.offers || []) if (o.store === feed.store) offers.push({ ...o, name: p.name, brand: p.brand || '', image: p.image || '', ean: '' });
+        } catch { /* no earlier file */ }
+      }
     }
   }
   const out = build(tests, offers);
@@ -166,5 +177,7 @@ async function main() {
   try { const old = JSON.parse(readFileSync(OUT, 'utf8')); if (JSON.stringify(old.products) === JSON.stringify(out.products)) out.updated = old.updated; } catch { /* first run */ }
   writeFileSync(OUT, JSON.stringify(out, null, 1) + '\n');
   console.log(`${out.products.length} tested products, ${out.products.filter((p) => p.offers.length).length} with shop offers → ${OUT}`);
+  // a warning on the GitHub run (and in the run list) – the file is still published with the last good offers
+  if (failed.length) console.log(`::warning title=Product feed failed::${failed.join(', ')} – kept yesterday's offers from that shop`);
 }
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) main().catch((e) => { console.error(e); process.exit(1); });

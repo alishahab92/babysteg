@@ -23,9 +23,9 @@ main{max-width:640px;margin:0 auto;padding:28px 16px 64px}
 .btn.sec{background:var(--ps);color:var(--ink)}
 footer{color:var(--muted);font-size:13px;text-align:center;margin-top:22px}footer a{color:var(--p)}
 .msg{text-align:center;padding:40px 10px;color:var(--ink2)}
-</style></head><body><main id="app"><div class="msg">…</div></main><script>window.__SERVER__="https://babysteg.abooshahab.workers.dev";window.__STORE__="https://play.google.com/store/apps/details?id=no.babysteg.app";</script><script>
+</style></head><body><main id="app"><div class="msg">…</div></main><script>window.__SERVER__="https://babysteg.abooshahab.workers.dev";window.__STORE__="https://play.google.com/store/apps/details?id=no.babysteg.app";window.__STORE_IOS__="https://apps.apple.com/no/app/id6820998700";</script><script>
 (function(){
-var SERVER=window.__SERVER__||'', STORE=window.__STORE__||'';
+var SERVER=window.__SERVER__||'', STORE=(/iPhone|iPad|iPod/.test(navigator.userAgent)&&window.__STORE_IOS__)||window.__STORE__||'';
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function b64u(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u;}
 function day(iso){var d=new Date(iso.slice(0,10)+'T12:00:00');return Math.round(d.getTime()/864e5);}
